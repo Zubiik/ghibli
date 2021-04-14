@@ -1,12 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import FilmList from './FilmList';
+import Film from "./selectedFilm/Film.js";
 import reportWebVitals from './reportWebVitals';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Router>
+      <div>
+        <Switch>
+          <Route path="/film/:filmId">
+            <Film/>
+          </Route>
+          <Route path="/">
+          <FilmList />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
