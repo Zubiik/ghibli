@@ -1,7 +1,7 @@
 
 import {useEffect,React,useState} from 'react';
 import { useHistory,useParams } from "react-router-dom";
-
+import {FilmCustom, HomeButton} from "./styled.js";
 
  export default function Film() {
      let { filmId } = useParams();
@@ -35,13 +35,22 @@ const backHomeButton=() =>{
 }
 
   return (
-    <div> 
-        <button onClick={backHomeButton}>home</button>
+    <FilmCustom> 
+        <HomeButton onClick={backHomeButton}>home</HomeButton>
 
     <p>
         {film.title}
     </p>
-     </div>
+    <p>
+        titre original {film.original_title}
+    </p>
+    <p>
+       sortit en {film.release_date}
+    </p>
+    <p>
+        synopsis {film.description}
+    </p>
+     </FilmCustom>
              
      
      

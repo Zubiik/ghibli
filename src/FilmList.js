@@ -1,12 +1,14 @@
 import './App.css';
 import {useEffect,React,useState} from 'react';
-import {FilmBox} from "./styled.js";
+import {FilmBox, FilmsBoxContainer, ImageCustom, TextBox, SearchFilm} from "./styled.js";
 import { useHistory } from "react-router-dom";
+import toto from "./image/Castle_in_the_Sky.jpg"
 
  export default function FilmList(onClick) {
   const history = useHistory();
   const [films, setFilms] = useState([]);
-
+  const [filmsToDisplay,setFilmsToDisplay] = useState([]);
+  const [searchFilm,setSearchFilm] = useState("");
    useEffect(() => {
      const toto = async () => {
        let url = "https://ghibliapi.herokuapp.com/films";
@@ -23,6 +25,7 @@ import { useHistory } from "react-router-dom";
           .then((response) => {
             return response.json();
           }).then((responseJson) => {
+            setFilmsToDisplay(responseJson);
             setFilms(responseJson);
           })
      }
@@ -34,23 +37,57 @@ import { useHistory } from "react-router-dom";
     
    };
 
+   const searchInput = (event, setterFunction) =>{
+    setterFunction(event.target.value);
+   }
+
+   const searchButton = () => {
+    var myArray = films.filter((film) => {
+      if (film.title === searchFilm) {
+        return film
+      } else {
+        return false;
+      }
+    });
+    setFilms(myArray);
+  };
+
+  useEffect(() => {
+    if (searchFilm ==="") {
+      setFilms(filmsToDisplay)
+    }
+    
+  }, [searchFilm])
+     
   return (
-    <div> 
-      <div>search
-        <input></input>
-      </div>
-      
+      <div>
+
+      <SearchFilm>
+        <div onClick={() => {
+          searchButton();
+        }}>search film</div>
+        <input onChange={(event) => {
+          searchInput(event, setSearchFilm)
+        }
+        }></input>
+      </SearchFilm>
+     <FilmsBoxContainer> 
+
       {films.map((film,index) => {
         return (
           <FilmBox key={index} >
-            <div  onClick={() =>filmSelection(film.id)
+            <ImageCustom src={toto}/>
+ 
+            <div onClick={() =>filmSelection(film.id)
           }>
-            {film.title}
+
+            <TextBox>{film.title}</TextBox>
             </div>
           </FilmBox>
         )
       })}
-    </div>
+    </FilmsBoxContainer>
+      </div>
      
      
   );
